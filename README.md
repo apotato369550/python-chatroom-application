@@ -1,7 +1,7 @@
 # python-chatroom-application
 A simple GUI chatroom application made in python
 
-##Hello Everyone!
+## Hello Everyone!
 
 This was one of my very first original projects made purely in Python. I had a lot of fun learning and building stuff with Tkinter.
 
