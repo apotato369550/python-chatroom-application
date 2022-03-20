@@ -95,3 +95,5 @@ Note: This application can only work between computers in THE SAME NETWORK. Whic
 connected to other networks.
 
 That's all you need to know. Thank you for using Supr Simple Chatroom!
+
+// add yolo
