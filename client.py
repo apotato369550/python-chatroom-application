@@ -4,7 +4,7 @@ from PIL import Image, ImageTk
 import socket
 import threading
 import activeWindows
-import tkMessageBox
+from tkinter import messagebox
 
 
 def client(ip_address, port, username, password):
@@ -20,39 +20,49 @@ def client(ip_address, port, username, password):
         server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
+        # convert parts to bytes
+
         try:
             server.connect((IP, PORT))
-            server.send("0")
+            server.send(bytes("0", "utf-8"))
             confirmed = server.recv(2000)
             if bool(int(confirmed)):
+                print("confirmed")
                 pass
             else:
-                tkMessageBox.showwarning("Warning", "Unable to connect to server")
+                messagebox.showwarning("Warning", "Unable to connect to server")
+                print("1")
                 return False
-        except:
+        except Exception as e:
+            print(e)
             return False
 
         try:
-            server.send(PASSWORD)
+            print("Password" + PASSWORD)
+            server.send(bytes(PASSWORD, "utf-8"))
             validated = server.recv(2000)
             if bool(int(validated)):
                 pass
             else:
-                tkMessageBox.showwarning("Warning", "Wrong password")
+                messagebox.showwarning("Warning", "Wrong password")
+                print("3")
                 return False
 
         except:
+            print("4")
             return False
 
         try:
-            server.send(USERNAME)
+            server.send(bytes(USERNAME, "utf-8"))
             validated = server.recv(2000)
             if bool(int(validated)):
                 pass
             else:
-                tkMessageBox.showwarning("Warning", "Username is already in use. Please select another one")
+                messagebox.showwarning("Warning", "Username is already in use. Please select another one")
+                print("5")
                 return False
         except:
+            print("6")
             return False
 
         server.close()
@@ -64,22 +74,22 @@ def client(ip_address, port, username, password):
 
         try:
             server.connect((ip_address, int(port)))
-            server.send("1")
+            server.send(bytes("1", 'utf-8'))
             server.recv(2000)
-            server.send(username)
+            server.send(bytes(username, "utf-8"))
             server.recv(2000)
         except:
             exit()
 
         room_name = server.recv(2000)
 
-        client_title_label.config(text=room_name)
+        client_title_label.config(text=room_name.decode("utf-8"))
 
         def send_message(event):
             message = client_chat_bar.get()
             if not message == "":
                 try:
-                    server.send(message)
+                    server.send(bytes(message, "utf-8"))
                 except:
                     pass
                 client_chat_bar.delete(0, END)
@@ -148,12 +158,14 @@ def client(ip_address, port, username, password):
 
         while True:
             try:
-                message = server.recv(2000)
+                message = server.recv(2000).decode("utf-8")
+                print("Here is the message that was recieved: " + message)
                 if message[0: 3] == "***":
                     action_handler(message[3:])
                     if message == "***k" or message == "***d" or message == "***sd":
                         break
                 else:
+                    print("printing message... (client)")
                     client_chat_window.config(state=NORMAL)
                     client_chat_window.insert(END, message)
                     client_chat_window.config(state=DISABLED)
@@ -162,28 +174,28 @@ def client(ip_address, port, username, password):
 
 
     if port == "" or username == "" or ip_address == "":
-        tkMessageBox.showerror("Error", "One or more your fields are blank. Please fill them.")
+        messagebox.showerror("Error", "One or more your fields are blank. Please fill them.")
         activeWindows.client_window_isactive = False
         return
 
     try:
         socket.inet_aton(ip_address)
     except:
-        tkMessageBox.showerror("Error", "Invalid IP address")
+        messagebox.showerror("Error", "Invalid IP address")
         activeWindows.client_window_isactive = False
         return
 
     try:
         int(port)
     except:
-        tkMessageBox.showerror("Error", "Your port number is invalid")
+        messagebox.showerror("Error", "Your port number is invalid")
         activeWindows.client_window_isactive = False
         return
 
 
 
     if not validate_client():
-        tkMessageBox.showerror("Error", "Unable to validate client")
+        messagebox.showerror("Error", "Unable to validate client")
         activeWindows.client_window_isactive = False
         return
 

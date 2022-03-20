@@ -1,14 +1,14 @@
-import Tkinter as tk
-from Tkinter import *
-import ttk
-import tkMessageBox
+import tkinter as tk
+from tkinter import *
+import tkinter.ttk as ttk
+# import tkMessageBox
+from tkinter import messagebox
 from PIL import ImageTk, Image
 import threading
 import json
 import time
 from collections import OrderedDict
 import os
-
 import config
 import client
 import server
@@ -80,7 +80,7 @@ def load_configurations(config_type):
         try:
             config_selected = load_config_listbox.get(load_config_listbox.curselection())
         except:
-            tkMessageBox.showerror("Error", "You have not selected a configuration")
+            messagebox.showerror("Error", "You have not selected a configuration")
             return
 
         with open("config.json", "r") as f:
@@ -140,7 +140,7 @@ def load_configurations(config_type):
                             load_config_listbox.insert(END, config)
 
             except:
-                tkMessageBox.showerror("Error", "Unable to load configurations")
+                messagebox.showerror("Error", "Unable to load configurations")
 
 
 
@@ -387,9 +387,10 @@ notebook.add(connect_frame, text="Connect")
 notebook.add(host_frame, text="Host")
 
 # Threads
-window_manager_thread = threading.Thread(target=window_activity_manager)
-window_manager_thread.daemon = True
-window_manager_thread.start()
+
+# window_manager_thread = threading.Thread(target=window_activity_manager)
+# window_manager_thread.daemon = True
+# window_manager_thread.start()
 
 if not os.path.exists("config.json"):
     print("file does not exist")

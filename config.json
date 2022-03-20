@@ -1,27 +1,21 @@
 {
  "client": {
-  "patata5shoe": {
-   "username": "hoe", 
-   "ip": "192.168.254.100", 
-   "password": "password", 
-   "port": "8081"
-  }, 
-  "lmao": {
-   "username": "hoe", 
-   "ip": "192.168.254.100", 
-   "password": "password", 
-   "port": "8081"
+  "bugzy malone": {
+   "ip": "192.168.0.103",
+   "port": "8081",
+   "username": "aaaa",
+   "password": "password"
   }
- }, 
+ },
  "server": {
   "Default Configuration": {
-   "password": "password", 
-   "room_name": "Ugh bugs", 
+   "password": "password",
+   "room_name": "Ugh bugs",
    "port": "8081"
-  }, 
+  },
   "This is a sample config": {
-   "password": "asdfasdf", 
-   "room_name": "popo", 
+   "password": "asdfasdf",
+   "room_name": "popo",
    "port": "1241"
   }
  }
