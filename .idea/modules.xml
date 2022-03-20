@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../../Completed Projects/Calculator/.idea/Calculator.iml" filepath="$PROJECT_DIR$/../../Completed Projects/Calculator/.idea/Calculator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../Samples and Experiments/Client-Server Sample/.idea/Client-Server Sample.iml" filepath="$PROJECT_DIR$/../../Samples and Experiments/Client-Server Sample/.idea/Client-Server Sample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../Completed Projects/Sample Chatroom/.idea/Sample Chatroom.iml" filepath="$PROJECT_DIR$/../../Completed Projects/Sample Chatroom/.idea/Sample Chatroom.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Super Simpl Chatroom.iml" filepath="$PROJECT_DIR$/.idea/Super Simpl Chatroom.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../Completed Projects/Supr Simpl AV/.idea/Supr Simpl AV.iml" filepath="$PROJECT_DIR$/../../Completed Projects/Supr Simpl AV/.idea/Supr Simpl AV.iml" />
+    </modules>
+  </component>
+</project>

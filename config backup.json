@@ -1,0 +1,48 @@
+{
+ "client": {
+  "Configuration 1": {
+   "ip": "xxx.xxx.x.x", 
+   "port": 1111, 
+   "username": "aaaaa", 
+   "password": "password"
+  }, 
+  "Configuration 2": {
+   "ip": "xxx.xxx.x.x", 
+   "port": 1111, 
+   "username": "aaaaa", 
+   "password": "password"
+  }, 
+  "Configuration 3": {
+   "ip": "xxx.xxx.x.x", 
+   "port": 1111, 
+   "username": "aaaaa", 
+   "password": "password"
+  }, 
+  "ifas;dfla": {
+   "username": "awrawra", 
+   "ip": "sadfasgr4h", 
+   "password": "aw4", 
+   "port": "erhaerv"
+  }
+ }, 
+ "server": {
+  "Configuration 1": {
+   "room_name": "room name", 
+   "port": 1111, 
+   "username": "aaaaa", 
+   "password": "password"
+  }, 
+  "Configuration 2": {
+   "room_name": "room name", 
+   "port": 1111, 
+   "username": "aaaaa", 
+   "password": "password"
+  }, 
+  "Configuration 3": {
+   "room_name": "room name", 
+   "port": 1111, 
+   "username": "aaaaa", 
+   "password": "password"
+  }
+ }
+}
