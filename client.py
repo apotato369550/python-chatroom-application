@@ -143,8 +143,9 @@ def client(ip_address, port, username, password):
 
         def disconnect():
             try:
-                server.send("***d " + username)
+                server.send(bytes("***d " + username, "utf-8"))
             except:
+                print("unable to disconnect")
                 pass
             activeWindows.client_window_isactive = False
             client_window.destroy()

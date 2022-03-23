@@ -158,7 +158,7 @@ def server(port, password, room_name):
         def shutdown():
             try:
                 for client in clients_list:
-                    clients_list[client].send("***sd")
+                    clients_list[client].send(bytes("***sd", "utf-8"))
                 log_action("Shutting down server...")
 
                 time.sleep(1)
@@ -171,7 +171,7 @@ def server(port, password, room_name):
 
         def disconnect(user):
             try:
-                clients_list[user].send("***d")
+                clients_list[user].send(bytes("***d", "utf-8"))
                 remove(user)
                 broadcast_message("", user + " has disconnected \n")
                 log_action(user + "has disconnected")
@@ -183,7 +183,7 @@ def server(port, password, room_name):
         def kick():
             try:
                 user = actions_server_connections_listbox.get(actions_server_connections_listbox.curselection())
-                clients_list[user].send("***k")
+                clients_list[user].send(bytes("***k", "utf-8"))
                 remove(user)
                 broadcast_message("", user + " has been kicked from the chat \n")
                 log_action(user + "has been kicked from the chat")
@@ -195,12 +195,12 @@ def server(port, password, room_name):
             try:
                 user = actions_server_connections_listbox.get(actions_server_connections_listbox.curselection())
                 if user in mute_list:
-                    clients_list[user].send("***um")
+                    clients_list[user].send(bytes("***um", "utf-8"))
                     broadcast_message("", user + " has been unmuted \n")
                     log_action(user + "has been unmuted")
                     mute_list.remove(user)
                 else:
-                    clients_list[user].send("***m")
+                    clients_list[user].send(bytes("***m", "utf-8"))
                     broadcast_message("", user + " has been muted \n")
                     log_action(user + "has been muted")
                     mute_list.append(user)
@@ -211,12 +211,12 @@ def server(port, password, room_name):
             try:
                 user = actions_server_connections_listbox.get(actions_server_connections_listbox.curselection())
                 if user not in deaf_list:
-                    clients_list[user].send("***df")
+                    clients_list[user].send(bytes("***df", "utf-8"))
                     broadcast_message("", user + " has been deafened \n")
                     log_action(user + "has been deafened")
                     deaf_list.append(user)
                 else:
-                    clients_list[user].send("***udf")
+                    clients_list[user].send(bytes("***udf", "utf-8"))
                     broadcast_message("", user + " has been undeafened \n")
                     log_action(user + "has been undeafened")
                     deaf_list.remove(user)
