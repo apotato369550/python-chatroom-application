@@ -1,8 +1,8 @@
 import tkinter as tk
 from tkinter import *
 from PIL import Image, ImageTk
-import ttk
-import tkMessageBox
+from tkinter import ttk
+from tkinter import messagebox
 import socket
 import time
 import threading
@@ -30,30 +30,32 @@ def server(port, password, room_name):
         server.listen(5)
 
         def validate_client(connection):
-
+            print("Validating client... ")
             try:
                 client_password = connection.recv(2000)
                 print(client_password)
-                if client_password == password:
-                    connection.send("1")
+                print("password: " + client_password.decode("utf-8"))
+                if client_password.decode("utf-8") == password:
+                    connection.send(bytes("1", "utf-8"))
                 else:
-                    connection.send("0")
+                    connection.send(bytes("0", "utf-8"))
                     return False
-            except:
-                connection.send("0")
+            except Exception as e:
+                print("server 1: " + e)
+                connection.send(bytes("0", "utf-8"))
                 connection.close()
                 return False
 
             try:
                 client_username = connection.recv(2000)
-                if client_username not in clients_list:
-                    connection.send("1")
+                if client_username.decode("utf-8") not in clients_list:
+                    connection.send(bytes("1", "utf-8"))
                 else:
-                    connection.send("0")
+                    connection.send(bytes("0", "utf-8"))
 
                 return True
             except:
-                connection.send("0")
+                connection.send(bytes("0", "utf-8"))
                 connection.close()
                 return False
 
@@ -62,25 +64,31 @@ def server(port, password, room_name):
 
             print("Running client_thread")
 
-            client.send(room_name)
+            client.send(bytes(room_name, "utf-8"))
 
             for message in messages:
                 print(message)
-                client.send(message)
+                client.send(bytes(message, "utf-8"))
 
-            broadcast_message("", username + " has entered the chat \n")
+            print("Type of username: " + str(type(username)))
+            broadcast_message("", username.decode("utf-8") + " has entered the chat \n")
 
             while True:
                 try:
-                    message = client.recv(2000)
+                    message = client.recv(2000).decode("utf-8")
+                    print(message)
                     print("message received")
                     if message:
                         if message[0: 3] == "***":
                             print("command received")
                             action_handler(message[3:])
                         elif username not in mute_list:
-                            broadcast_message(username, message)
+                            print("broadcasting message")
+                            broadcast_message(username.decode("utf-8"), message)
+                        else:
+                            print("poo poo")
                     else:
+                        print("Client closed:(")
                         client.close()
                         remove(username)
 
@@ -107,9 +115,9 @@ def server(port, password, room_name):
                         full_message = sender + ":   " + message + "\n"
                     else:
                         full_message = message
-                    clients_list[client].send(full_message)
+                    clients_list[client].send(bytes(full_message, "utf-8"))
                     messages.append(full_message)
-
+# message received
 
 
         def remove(connection):
@@ -150,7 +158,7 @@ def server(port, password, room_name):
         def shutdown():
             try:
                 for client in clients_list:
-                    clients_list[client].send("***sd")
+                    clients_list[client].send(bytes("***sd", "utf-8"))
                 log_action("Shutting down server...")
 
                 time.sleep(1)
@@ -163,7 +171,7 @@ def server(port, password, room_name):
 
         def disconnect(user):
             try:
-                clients_list[user].send("***d")
+                clients_list[user].send(bytes("***d", "utf-8"))
                 remove(user)
                 broadcast_message("", user + " has disconnected \n")
                 log_action(user + "has disconnected")
@@ -175,7 +183,7 @@ def server(port, password, room_name):
         def kick():
             try:
                 user = actions_server_connections_listbox.get(actions_server_connections_listbox.curselection())
-                clients_list[user].send("***k")
+                clients_list[user].send(bytes("***k", "utf-8"))
                 remove(user)
                 broadcast_message("", user + " has been kicked from the chat \n")
                 log_action(user + "has been kicked from the chat")
@@ -187,12 +195,12 @@ def server(port, password, room_name):
             try:
                 user = actions_server_connections_listbox.get(actions_server_connections_listbox.curselection())
                 if user in mute_list:
-                    clients_list[user].send("***um")
+                    clients_list[user].send(bytes("***um", "utf-8"))
                     broadcast_message("", user + " has been unmuted \n")
                     log_action(user + "has been unmuted")
                     mute_list.remove(user)
                 else:
-                    clients_list[user].send("***m")
+                    clients_list[user].send(bytes("***m", "utf-8"))
                     broadcast_message("", user + " has been muted \n")
                     log_action(user + "has been muted")
                     mute_list.append(user)
@@ -203,12 +211,12 @@ def server(port, password, room_name):
             try:
                 user = actions_server_connections_listbox.get(actions_server_connections_listbox.curselection())
                 if user not in deaf_list:
-                    clients_list[user].send("***df")
+                    clients_list[user].send(bytes("***df", "utf-8"))
                     broadcast_message("", user + " has been deafened \n")
                     log_action(user + "has been deafened")
                     deaf_list.append(user)
                 else:
-                    clients_list[user].send("***udf")
+                    clients_list[user].send(bytes("***udf", "utf-8"))
                     broadcast_message("", user + " has been undeafened \n")
                     log_action(user + "has been undeafened")
                     deaf_list.remove(user)
@@ -231,20 +239,23 @@ def server(port, password, room_name):
 
             try:
                 validated = clientsocket.recv(2000)
-                clientsocket.send("1")
+                clientsocket.send(bytes("1", "utf-8"))
                 if bool(int(validated)):
+                    print("validated:D")
                     client_username = clientsocket.recv(2000)
                     clients_list[client_username] = clientsocket
                     details_server_connections_listbox.insert(END, client_username)
                     actions_server_connections_listbox.insert(END, client_username)
-                    clientsocket.send("1")
+                    clientsocket.send(bytes("1", "utf-8"))
                     ct = threading.Thread(target=client_thread, args=(clientsocket, client_username))
                     ct.daemon = True
                     ct.start()
-                    log_action(client_username + " [" + str(address[0]) + "] has entered the chat")
+                    log_action(client_username.decode("utf-8") + " [" + address[0] + "] has entered the chat")
                 elif not validate_client(clientsocket):
+                    print("Not validated:(")
                     clientsocket.close()
-            except:
+            except Exception as e:
+                print("server 2: " + str(e))
                 break
 
     def log_action(action):
@@ -285,14 +296,14 @@ def server(port, password, room_name):
 
 
     if port == "" or room_name == "":
-        tkMessageBox.showerror("Error", "One or more of your fields are blank. Please fill them.")
+        messagebox.showerror("Error", "One or more of your fields are blank. Please fill them.")
         activeWindows.server_window_isactive = False
         return
 
     try:
         int(port)
     except:
-        tkMessageBox.showerror("Error", "Please Enter a valid port number.")
+        messagebox.showerror("Error", "Please Enter a valid port number.")
         activeWindows.server_window_isactive = False
         return
 

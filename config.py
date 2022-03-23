@@ -1,8 +1,9 @@
 import tkinter as tk
 from tkinter import *
 from PIL import Image, ImageTk
-import ttk
-import tkMessageBox
+from tkinter import ttk
+# import tkMessageBox
+from tkinter import messagebox
 import json
 from collections import OrderedDict
 
@@ -55,7 +56,7 @@ def manage_configurations():
             elif config_type == "server":
                 config_selected = server_config_listbox.get(server_config_listbox.curselection())
         except:
-            tkMessageBox.showerror("Error", "You have not selected a configuration")
+            messagebox.showerror("Error", "You have not selected a configuration")
             return
 
         with open("config.json") as f:
@@ -111,7 +112,7 @@ def manage_configurations():
             password = client_config_password_entry.get()
 
             if ip_address == "" or port == "" or username == "":
-                tkMessageBox.showerror("Error", "Lacking one or more parameters")
+                messagebox.showerror("Error", "Lacking one or more parameters")
                 return
 
             new_config = {
@@ -130,7 +131,7 @@ def manage_configurations():
             password = server_config_password_entry.get()
 
             if room_name == "" or port == "":
-                tkMessageBox.showerror("Error", "Lacking one or more parameters")
+                messagebox.showerror("Error", "Lacking one or more parameters")
                 return
 
             new_config = {
@@ -170,7 +171,7 @@ def manage_configurations():
                         for config in config_list:
                             server_config_listbox.insert(END, config)
             except:
-                tkMessageBox.showerror("Error", "Unable to load configurations")
+                messagebox.showerror("Error", "Unable to load configurations")
 
 
     def close_window():
